@@ -92,22 +92,98 @@ int main() {
                 } while (opcaoPilha != 0);
                 break;
             }
-            case 3:
-                printf("\n--- Diario de Missoes (LISTA SIMPLES) ---\n");
-                // Exemplo de chamada: exibirMissoes(listaMissoes);
+            // ... (cases 1 e 2 já implementados) ...
+
+            case 3: {
+                int op = 0;
+                int id;
+                char desc[100];
+                do {
+                    printf("\n--- DIARIO DE MISSOES (LISTA SIMPLES) ---\n");
+                    printf("1. Adicionar Missao\n2. Concluir Missao\n3. Ver Diario\n0. Voltar\nEscolha: ");
+                    if (scanf("%d", &op) != 1) { limparBuffer(); continue; }
+                    limparBuffer();
+                    
+                    if (op == 1) {
+                        printf("ID da missao: ");
+                        scanf("%d", &id); limparBuffer();
+                        printf("Descricao: ");
+                        fgets(desc, sizeof(desc), stdin); desc[strcspn(desc, "\n")] = 0;
+                        inserirMissao(&listaMissoes, id, desc);
+                    } else if (op == 2) {
+                        printf("ID da missao concluida: ");
+                        scanf("%d", &id); limparBuffer();
+                        removerMissao(&listaMissoes, id);
+                    } else if (op == 3) {
+                        exibirMissoes(listaMissoes);
+                    }
+                } while (op != 0);
                 break;
-            case 4:
-                printf("\n--- Navegacao por Salas (LISTA DUPLA) ---\n");
-                // Exemplo de chamada: exibirSalaAtual(salaAtual);
+            }
+            case 4: {
+                int op = 0;
+                do {
+                    printf("\n--- NAVEGACAO POR SALAS (LISTA DUPLA) ---\n");
+                    printf("1. Descobrir Nova Sala\n2. Avancar (Proxima)\n3. Recuar (Anterior)\n4. Olhar ao Redor\n0. Voltar\nEscolha: ");
+                    if (scanf("%d", &op) != 1) { limparBuffer(); continue; }
+                    limparBuffer();
+
+                    if (op == 1) {
+                        int id; char desc[100];
+                        printf("Numero da sala: "); scanf("%d", &id); limparBuffer();
+                        printf("Descricao do ambiente: ");
+                        fgets(desc, sizeof(desc), stdin); desc[strcspn(desc, "\n")] = 0;
+                        adicionarSala(&salaAtual, id, desc);
+                    } else if (op == 2) {
+                        navegarProximaSala(&salaAtual);
+                    } else if (op == 3) {
+                        navegarSalaAnterior(&salaAtual);
+                    } else if (op == 4) {
+                        exibirSalaAtual(salaAtual);
+                    }
+                } while (op != 0);
                 break;
-            case 5:
-                printf("\n--- Rota de Patrulha dos Demonios (LISTA CIRCULAR) ---\n");
-                // Exemplo de chamada: exibirRotaPatrulha(caldaPatrulha);
+            }
+            case 5: {
+                int op = 0;
+                do {
+                    printf("\n--- PATRULHA INIMIGA (LISTA CIRCULAR) ---\n");
+                    printf("1. Adicionar Ponto de Rota\n2. Observar Rota de Patrulha\n0. Voltar\nEscolha: ");
+                    if (scanf("%d", &op) != 1) { limparBuffer(); continue; }
+                    limparBuffer();
+
+                    if (op == 1) {
+                        char local[50];
+                        printf("Nome do local da patrulha: ");
+                        fgets(local, sizeof(local), stdin); local[strcspn(local, "\n")] = 0;
+                        inserirPatrulha(&caldaPatrulha, local);
+                    } else if (op == 2) {
+                        exibirRotaPatrulha(caldaPatrulha);
+                    }
+                } while(op != 0);
                 break;
-            case 6:
-                printf("\n--- Arvore de Habilidades (ARVORE BINARIA) ---\n");
-                // Exemplo de chamada: exibirSkillTreeInOrder(raizSkills);
+            }
+            case 6: {
+                int op = 0;
+                do {
+                    printf("\n--- SKILL TREE (ARVORE BINARIA) ---\n");
+                    printf("1. Desbloquear Habilidade\n2. Exibir Arvore de Habilidades\n0. Voltar\nEscolha: ");
+                    if (scanf("%d", &op) != 1) { limparBuffer(); continue; }
+                    limparBuffer();
+
+                    if (op == 1) {
+                        int id; char nome[50];
+                        printf("ID (Forca da habilidade 1-100): "); scanf("%d", &id); limparBuffer();
+                        printf("Nome da Magia/Habilidade: ");
+                        fgets(nome, sizeof(nome), stdin); nome[strcspn(nome, "\n")] = 0;
+                        raizSkills = inserirHabilidade(raizSkills, id, nome);
+                    } else if (op == 2) {
+                        printf("\n=== ARVORE DE HABILIDADES (ORDEM CRESCENTE) ===\n");
+                        exibirSkillTreeInOrder(raizSkills);
+                    }
+                } while(op != 0);
                 break;
+            }
             case 0:
                 printf("\nEncerrando a jornada. Ate a proxima aventura!\n");
                 break;
